@@ -5,8 +5,31 @@ import (
 	"net/http"
 )
 
+type endpoint map[string]http.HandlerFunc
+
+var fooEndpoint = endpoint{
+	"GET": func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("You called Get Method of foo handler"))
+	},
+}
+
+var endpoints = map[string]endpoint{
+	"/foo": fooEndpoint,
+}
+
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome to fake-server"))
+	if methods, ok := endpoints[r.URL.Path]; !ok {
+		w.Write([]byte("Endpoint is not defined"))
+		return
+	} else {
+		if fn, ok := methods[r.Method]; !ok {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			w.Write([]byte("Method not allowed"))
+		} else {
+			fn(w, r)
+		}
+	}
+
 }
 
 func superAdminHandler(w http.ResponseWriter, r *http.Request) {
