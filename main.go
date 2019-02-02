@@ -1,45 +1,56 @@
 package main
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-type endpoint map[string]http.HandlerFunc
-
-var fooEndpoint = endpoint{
-	"GET": func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("You called Get Method of foo handler"))
-	},
-}
-
-var endpoints = map[string]endpoint{
-	"/foo": fooEndpoint,
-}
-
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	if methods, ok := endpoints[r.URL.Path]; !ok {
+	if endpoint, ok := endpoints[r.URL.Path]; !ok {
 		w.Write([]byte("Endpoint is not defined"))
 		return
 	} else {
-		if fn, ok := methods[r.Method]; !ok {
+		if endpoint.method != r.Method {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			w.Write([]byte("Method not allowed"))
 		} else {
-			fn(w, r)
+			endpoint.handler.fn(w, r)
 		}
 	}
 
 }
 
 func superAdminHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Define endpoints and their responses"))
+	if r.Method == http.MethodGet {
+		w.Write([]byte("Define endpoints and their responses"))
+	} else if r.Method == http.MethodPost {
+		e := &addEndpointRequest{}
+		b, _ := ioutil.ReadAll(r.Body)
+		log.Printf("Bytes received: %s", string(b))
+		_ = json.Unmarshal(b, e)
+		e.addEndpoint()
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte("Endpoint added"))
+	}
+}
+
+func getEndpoints(w http.ResponseWriter, r *http.Request) {
+	ep := make([]string, 1, 1)
+	for k := range endpoints {
+		ep = append(ep, k)
+	}
+	b, _ := json.Marshal(ep)
+	w.WriteHeader(http.StatusOK)
+	w.Write(b)
 }
 
 func createMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", rootHandler)
 	mux.HandleFunc("/superAdmin", superAdminHandler)
+	mux.HandleFunc("/getEndpoints", getEndpoints)
 	return mux
 }
 
