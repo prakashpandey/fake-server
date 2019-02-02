@@ -16,7 +16,7 @@ func superAdminHandler(w http.ResponseWriter, r *http.Request) {
 func createMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", rootHandler)
-	mux.HandleFunc("superAdmin", superAdminHandler)
+	mux.HandleFunc("/superAdmin", superAdminHandler)
 	return mux
 }
 
