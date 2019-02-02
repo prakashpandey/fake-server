@@ -15,17 +15,17 @@ type endpointHandler struct {
 var endpoints = map[string]endpoint{}
 
 type addEndpointRequest struct {
-	Path     string `json:"path"`
+	Endpoint string `json:"endpoint"`
 	Method   string `json:"method"`
 	Response string `json:"response"`
 }
 
 func (e *addEndpointRequest) String() string {
-	return e.Path + ", " + e.Method + ", " + e.Response
+	return e.Endpoint + ", " + e.Method + ", " + e.Response
 }
 
 func (e *addEndpointRequest) addEndpoint() {
-	endpoints[e.Path] = endpoint{
+	endpoints[e.Endpoint] = endpoint{
 		method: e.Method,
 		handler: endpointHandler{
 			fn: func(w http.ResponseWriter, r *http.Request) {

@@ -4,7 +4,7 @@ A fake server for developing and testing client (web, mobile, console) applicati
 
 ## How to run?
 
-- `go get github.com/prakashpandey/fake-server`
+- `git clone github.com/prakashpandey/fake-server`
 
 - `cd fake-server`
 
@@ -14,16 +14,16 @@ By default the server will start at `localhost:8284`
 
 ## Apis
 
-- `/superAdmin`: Added dynamic endpoints with the desire response
+- `/superAdmin`: Add dynamic endpoint with the desire response
 
     - Method: `POST`
     
     - Body: 
         ```
         {
-            "path": "/cart",
-            "method": "GET",
-            "response": "I am cart endpoint"
+            "endpoint": "/cart", // 'endpoint' is the path of your endpoint
+            "method": "GET", // 'method' the http method this endpoint accept
+            "response": "I am cart endpoint" // 'response' is the desire response you want when you will access this endpoint
         }	
         ```
 
