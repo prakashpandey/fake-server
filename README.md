@@ -42,7 +42,7 @@ By default the server will start at `localhost:8284`
 
 ## How to access your dynamically added Api
 
-Go the your endpoint path, e.g if you have added endpoint `/cart`, then you can access your endpoint by going to
+Go to the endpoint path that you defined, e.g if you have added endpoint `/cart`, then you can access your endpoint by going to
 `localhost:8284/cart`
 
 ## Future plans
