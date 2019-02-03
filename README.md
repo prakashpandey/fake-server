@@ -54,3 +54,7 @@ Go the your endpoint path, e.g if you have added endpoint `/cart`, then you can 
 - Support `http response headers`
 
 - Support `http response codes`
+
+## LICENSE
+
+`Apache License Version 2.0`, please visit [LICENSE](LICENSE) for more information.
