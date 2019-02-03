@@ -4,6 +4,12 @@ A fake server for developing and testing client (web, mobile, console) applicati
 
 ## How to run?
 
+### Download binaries
+
+- Download the binaries for your os using the [link](https://github.com/prakashpandey/fake-server/tree/master/target).
+
+### Build natively
+
 - `git clone github.com/prakashpandey/fake-server`
 
 - `cd fake-server`
@@ -34,7 +40,17 @@ By default the server will start at `localhost:8284`
             ["","/cart","/user"]
         ```
 
-### How to access your dynamically added Api
+## How to access your dynamically added Api
 
 Go the your endpoint path, e.g if you have added endpoint `/cart`, then you can access your endpoint by going to
 `localhost:8284/cart`
+
+## Future plans
+
+- Write test cases
+
+- Implement `web-ui` console
+
+- Support `http response headers`
+
+- Support `http response codes`
